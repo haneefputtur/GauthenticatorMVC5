@@ -1,0 +1,44 @@
+﻿@model GAuthenticator.Models.LoginModel
+
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2>Login Page</h2>
+@if (ViewBag.Status == null || !ViewBag.Status)
+{
+    <div>@ViewBag.Message</div>
+    <div>
+        @using (Html.BeginForm())
+        {
+            <div class="form-group">
+                <label for="UserName">UserName : </label>
+                @Html.TextBoxFor(a => a.UserName, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label for="Password">Password : </label>
+                @Html.TextBoxFor(a => a.Password, new { @class = "form-control", type = "password" })
+            </div>
+            <input type="submit" value="Login" class="btn btn-default" />
+
+         
+       }
+    </div>
+}
+else
+{
+    <div>@ViewBag.Message</div>
+    <div>
+        <img src="@ViewBag.BarcodeImageUrl" />
+    </div>
+    <div>
+        Manual Setup Code : @ViewBag.SetupCode
+    </div>
+    <div>
+        @using (Html.BeginForm("TwoFactorAuthenticate", "Login", FormMethod.Post))
+        {
+            <input type="text" name="CodeDigit" />
+            <input type="submit" class="btn btn-success" />
+        }
+    </div>
+}
